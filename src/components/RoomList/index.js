@@ -3,7 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import List from "@material-ui/core/List";
 import RoomItem from "./RoomItem";
-import rooms from "./dummyData";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,14 +14,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NestedList() {
+export default function NestedList({ rooms }) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-
-  const handleClick = () => {
-    setOpen(!open);
-  };
-
   return (
     <List
       component="nav"
@@ -35,7 +28,7 @@ export default function NestedList() {
       className={classes.root}
     >
       {rooms.map((room) => (
-        <RoomItem room={room} />
+        <RoomItem key={room.id} room={room} />
       ))}
     </List>
   );

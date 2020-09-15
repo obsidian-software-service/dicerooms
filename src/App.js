@@ -10,10 +10,11 @@ function App() {
     <BrowserRouter>
       {/* TODO NAVBAR */}
       <ModalManager />
+
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route path="/playroom" component={PlayRoom} />
-        <Route path="/rooms" component={Rooms} />
+        <Route exact path="/rooms" component={Rooms} />
+        <Route path="/rooms/:id" component={PlayRoom} />
       </Switch>
     </BrowserRouter>
   );

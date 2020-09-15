@@ -11,6 +11,7 @@ export default function RoomItem({ room }) {
   const handleEnterRoomModal = () => {
     dispatch(openModal({ modalType: "enter", content: room }));
   };
+
   return (
     <ListItem button onClick={handleEnterRoomModal}>
       <ListItemIcon>
@@ -26,7 +27,9 @@ export default function RoomItem({ room }) {
 
       <ListItemIcon>
         <Grid container spacing={2} alignItems="center">
-          <Grid item>{room.private ? <LockIcon /> : <LockOpenIcon />}</Grid>
+          <Grid item>
+            {room.password.length > 0 ? <LockIcon /> : <LockOpenIcon />}
+          </Grid>
         </Grid>
       </ListItemIcon>
 

@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Paper, TextField, Button, Typography } from "@material-ui/core";
+import { Grid, TextField, Button } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import { useDispatch } from "react-redux";
+import { hideModal } from "../../redux/modalSlice";
+import db from "../../config/dbFirebase";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -19,9 +22,26 @@ const useStyles = makeStyles((theme) => ({
 
 const AddRoom = (props) => {
   const classes = useStyles();
+  const [loading, setLoading] = useState(false);
+  const [title, setTitle] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+
+  const handleCreate = async () => {
+    setLoading(true);
+    await db.collection("rooms").add({
+      title,
+      password,
+    });
+    setLoading(false);
+    dispatch(hideModal());
+  };
+
   return (
     <Grid
       container
+      item
       xs={6}
       className={classes.paper}
       direction="column"
@@ -37,6 +57,9 @@ const AddRoom = (props) => {
           variant="outlined"
           size="small"
           fullWidth
+          onChange={(e) => setTitle(e.target.value)}
+          value={title}
+          required
         />
       </Grid>
       <Grid item xs={12}>
@@ -46,6 +69,8 @@ const AddRoom = (props) => {
           variant="outlined"
           size="small"
           type="password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
           fullWidth
         />
       </Grid>
@@ -57,6 +82,8 @@ const AddRoom = (props) => {
           endIcon={<AddIcon />}
           size="large"
           fullWidth
+          onClick={handleCreate}
+          disabled={loading}
         >
           Crear
         </Button>

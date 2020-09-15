@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper, TextField, Button, Typography } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import Container from "../components/Container";
+import db from "../config/dbFirebase";
 
 const styles = makeStyles({
   root: {
@@ -19,7 +21,22 @@ const background =
   "radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)";
 
 export function PlayRoom(props) {
+  const [room, setRoom] = useState({});
+
+  const { id } = useParams();
   const classes = styles(props);
+
+  useEffect(() => {
+    db.collection("rooms")
+      .doc(id)
+      .get()
+      .then((doc) => {
+        setRoom({
+          id: doc.id,
+          ...doc.data(),
+        });
+      });
+  }, []);
 
   return (
     <Container background={background} transparent>
@@ -33,7 +50,7 @@ export function PlayRoom(props) {
         <Grid item container spacing={2}>
           <Grid item xs={6}>
             <Paper elevation={2}>
-              <Typography variant="h5">Play room: Nombre Sala</Typography>
+              <Typography variant="h5">Play room: {room.title}</Typography>
             </Paper>
           </Grid>
           <Grid item xs={6}>
