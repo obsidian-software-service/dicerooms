@@ -9,7 +9,7 @@ import { openModal } from "../../redux/modalSlice";
 export default function RoomItem({ room }) {
   const dispatch = useDispatch();
   const handleEnterRoomModal = () => {
-    dispatch(openModal("enter"));
+    dispatch(openModal({ modalType: "enter", content: room }));
   };
   return (
     <ListItem button onClick={handleEnterRoomModal}>

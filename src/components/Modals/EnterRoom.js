@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddRoom = (props) => {
+const AddRoom = ({ title, id }) => {
   const classes = useStyles();
   return (
     <Grid
@@ -31,7 +31,7 @@ const AddRoom = (props) => {
         <h2 id="transition-modal-title">Ingresar a Sala</h2>
       </Grid>
       <Grid item container xs={12} justify="center">
-        <Typography variant="h6">Nombre de la Sala</Typography>
+        <Typography variant="h6">{title}</Typography>
       </Grid>
       <Grid item xs={12}>
         <TextField

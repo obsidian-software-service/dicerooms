@@ -22,13 +22,14 @@ const ModalManager = (props) => {
   };
   const open = useSelector((state) => state.modal.open);
   const type = useSelector((state) => state.modal.type);
+  const content = useSelector((state) => state.modal.content);
 
   const selectedModal = () => {
     switch (type) {
       case "add":
         return <AddRoom />;
       case "enter":
-        return <EnterRoom />;
+        return <EnterRoom title={content.title} id={content.id} />;
       default:
         return <h1>No modal</h1>;
     }
