@@ -26,7 +26,7 @@ export function Rooms(props) {
   const dispatch = useDispatch();
 
   const handleAddRoomModal = () => {
-    dispatch(openModal());
+    dispatch(openModal("add"));
   };
 
   return (

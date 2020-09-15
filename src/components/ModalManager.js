@@ -4,6 +4,7 @@ import { Modal, Backdrop, Fade } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { hideModal } from "../redux/modalSlice";
 import AddRoom from "./Modals/AddRoom";
+import EnterRoom from "./Modals/EnterRoom";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -20,6 +21,18 @@ const ModalManager = (props) => {
     dispatch(hideModal());
   };
   const open = useSelector((state) => state.modal.open);
+  const type = useSelector((state) => state.modal.type);
+
+  const selectedModal = () => {
+    switch (type) {
+      case "add":
+        return <AddRoom />;
+      case "enter":
+        return <EnterRoom />;
+      default:
+        return <h1>No modal</h1>;
+    }
+  };
 
   return (
     <Modal
@@ -34,9 +47,7 @@ const ModalManager = (props) => {
         timeout: 500,
       }}
     >
-      <Fade in={open}>
-        <AddRoom />
-      </Fade>
+      <Fade in={open}>{selectedModal()}</Fade>
     </Modal>
   );
 };
