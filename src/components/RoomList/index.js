@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NestedList({ rooms }) {
   const classes = useStyles();
-  console.log("desde NestedList, rooms es", rooms);
   return (
     <List
       component="nav"

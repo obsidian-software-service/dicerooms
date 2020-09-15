@@ -12,7 +12,6 @@ export default function RoomItem({ room }) {
     dispatch(openModal({ modalType: "enter", content: room }));
   };
 
-  console.log("desde RoomItem, el room es:", room);
   return (
     <ListItem button onClick={handleEnterRoomModal}>
       <ListItemIcon>

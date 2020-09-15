@@ -27,12 +27,10 @@ export function PlayRoom(props) {
   const classes = styles(props);
 
   useEffect(() => {
-    console.log("mi id es:", id);
     db.collection("rooms")
       .doc(id)
       .get()
       .then((doc) => {
-        console.log("doc room id:", doc.id, "data:", doc.data());
         setRoom({
           id: doc.id,
           ...doc.data(),

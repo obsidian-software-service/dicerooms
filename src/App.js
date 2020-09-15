@@ -6,7 +6,6 @@ import Rooms from "./pages/Rooms";
 import ModalManager from "./components/ModalManager";
 
 function App() {
-  console.log(process.env.REACT_APP_LOLO);
   return (
     <BrowserRouter>
       {/* TODO NAVBAR */}
