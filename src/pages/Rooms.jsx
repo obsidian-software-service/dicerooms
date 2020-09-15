@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { openModal } from "../redux/modalSlice";
 
 import Container from "../components/Container";
+import RoomsList from "../components/RoomList";
 
 const styles = makeStyles({
   root: {
@@ -62,7 +63,7 @@ export function Rooms(props) {
         </Grid>
         <Grid item className={classes.roomsContainer}>
           <Paper elevation={2} className={classes.rooms}>
-            Rooms
+            <RoomsList />
           </Paper>
         </Grid>
       </Grid>
