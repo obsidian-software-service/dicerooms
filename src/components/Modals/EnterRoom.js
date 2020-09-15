@@ -1,7 +1,10 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, TextField, Button, Typography } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
+import { useDispatch } from "react-redux";
+import { hideModal } from "../../redux/modalSlice";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -19,6 +22,14 @@ const useStyles = makeStyles((theme) => ({
 
 const AddRoom = ({ title, id }) => {
   const classes = useStyles();
+  let history = useHistory();
+
+  const dispatch = useDispatch();
+  const handleEnter = () => {
+    history.push(`/rooms/${id}`);
+    dispatch(hideModal());
+  };
+
   return (
     <Grid
       container
@@ -51,6 +62,7 @@ const AddRoom = ({ title, id }) => {
           endIcon={<SendIcon />}
           size="large"
           fullWidth
+          onClick={handleEnter}
         >
           Ingresar
         </Button>
