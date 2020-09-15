@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper, TextField, Button, Typography } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import Container from "../components/Container";
+import ChatItem from "../components/ChatItem";
 import firebase from "firebase/app";
 import db from "../config/dbFirebase";
 
@@ -12,12 +13,13 @@ const styles = makeStyles({
     height: "90%",
   },
   chatContainer: {
-    flex: 1,
+    height: "60vh",
     overflow: "auto",
   },
   chat: {
     height: "100%",
     overflow: "auto",
+    background: "#DDD",
   },
 });
 const background =
@@ -30,6 +32,8 @@ export function PlayRoom(props) {
 
   const { id } = useParams();
   const classes = styles(props);
+
+  const refChatPaper = useRef();
 
   useEffect(() => {
     db.collection("rooms")
@@ -54,6 +58,7 @@ export function PlayRoom(props) {
           });
         });
         setMessages(auxMessages);
+        refChatPaper.current.scrollTop = refChatPaper.current.scrollHeight;
       });
   }, []);
 
@@ -75,77 +80,75 @@ export function PlayRoom(props) {
 
   return (
     <Container background={background} transparent>
-      <Grid
-        container
-        xs={12}
-        spacing={2}
-        className={classes.root}
-        direction="column"
-      >
-        <Grid item container spacing={2}>
-          <Grid item xs={6}>
+      <Grid container spacing={2} xs={12} className={classes.root}>
+        <Grid container item justify="space-between" xs={12}>
+          <Grid item xs={5}>
             <Paper elevation={2}>
               <Typography variant="h5">Play room: {room.title}</Typography>
             </Paper>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={5}>
             <Paper elevation={2}>
               <Typography variant="h5">Nombre Jugador</Typography>
             </Paper>
           </Grid>
         </Grid>
-        <Grid item className={classes.chatContainer}>
-          <Paper elevation={2} className={classes.chat}>
-            {messages.map((msg) => (
-              <Typography>
-                {msg.user.name}:{msg.content}
-              </Typography>
-            ))}
+
+        <Grid item xs={12} className={classes.chatContainer} spacing={2}>
+          <Paper elevation={2} className={classes.chat} ref={refChatPaper}>
+            <Grid container xs={12} direction="column" spacing={1}>
+              {messages.map((msg) => (
+                <ChatItem msg={msg} />
+              ))}
+            </Grid>
           </Paper>
         </Grid>
-        <Grid item container direction="column" spacing={1}>
-          <Grid item>
-            <Paper elevation={2}>Botonera</Paper>
-          </Grid>
-          <Grid item>
-            <form onSubmit={handleSubmitMessage}>
-              <Paper elevation={2}>
-                <Grid
-                  item
-                  container
-                  xs={12}
-                  direction="row"
-                  justify="space-between"
-                  spacing={1}
-                  alignItems="center"
-                >
-                  <Grid item xs={10}>
-                    <TextField
-                      id="chatInput"
-                      label="Mensaje"
-                      variant="outlined"
-                      size="small"
-                      fullWidth
-                      onChange={(e) => setMessage(e.target.value)}
-                      value={message}
-                    />
+
+        <Grid item xs={12}>
+          <Grid container direction="column" spacing={1}>
+            <Grid item>
+              <Paper elevation={2}>Botonera</Paper>
+            </Grid>
+            <Grid item>
+              <form onSubmit={handleSubmitMessage}>
+                <Paper elevation={2}>
+                  <Grid
+                    item
+                    container
+                    xs={12}
+                    direction="row"
+                    justify="space-between"
+                    spacing={1}
+                    alignItems="center"
+                  >
+                    <Grid item xs={10}>
+                      <TextField
+                        id="chatInput"
+                        label="Mensaje"
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        onChange={(e) => setMessage(e.target.value)}
+                        value={message}
+                      />
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        className={classes.button}
+                        endIcon={<SendIcon />}
+                        size="large"
+                        fullWidth
+                        type="submit"
+                      >
+                        Enviar
+                      </Button>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={2}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      className={classes.button}
-                      endIcon={<SendIcon />}
-                      size="large"
-                      fullWidth
-                      type="submit"
-                    >
-                      Enviar
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Paper>
-            </form>
+                </Paper>
+              </form>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
