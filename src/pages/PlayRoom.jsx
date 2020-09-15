@@ -126,8 +126,6 @@ export function PlayRoom(props) {
                       variant="outlined"
                       size="small"
                       fullWidth
-                      multiline
-                      rows={2}
                       onChange={(e) => setMessage(e.target.value)}
                       value={message}
                     />
