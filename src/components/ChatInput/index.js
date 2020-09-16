@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Paper, TextField, Button } from "@material-ui/core";
+import { Grid, Paper, Button } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
+import ColoredInput from "./ColoredInput";
 
 const styles = makeStyles({
   button: {},
@@ -35,12 +36,7 @@ export function ChatInput({ onSubmitMessage }) {
                 alignItems="center"
               >
                 <Grid item xs={10}>
-                  <TextField
-                    id="chatInput"
-                    label="Mensaje"
-                    variant="outlined"
-                    size="small"
-                    fullWidth
+                  <ColoredInput
                     onChange={(e) => setMessage(e.target.value)}
                     value={message}
                   />
