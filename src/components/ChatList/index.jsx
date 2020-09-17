@@ -14,7 +14,6 @@ const styles = makeStyles({
     background: "#DDD",
   },
 });
-
 export function ChatList({ messages }) {
   const classes = styles();
   const refChatPaper = useRef();
