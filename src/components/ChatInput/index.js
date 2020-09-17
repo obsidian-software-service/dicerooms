@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, Paper, Button } from "@material-ui/core";
 import SendIcon from "@material-ui/icons/Send";
 import ColoredInput from "./ColoredInput";
+import { textDescriptor, rollToText } from "../../utils";
 
 const styles = makeStyles({
   button: {},
@@ -14,7 +15,16 @@ export function ChatInput({ onSubmitMessage }) {
 
   const handleSubmitMessage = (e) => {
     e.preventDefault();
-    onSubmitMessage(message);
+
+    const formatedMessage = textDescriptor(message).reduce((a, v) => {
+      if (v.type === "dice") {
+        const { text, number, dice, plus } = v;
+        return `${a}${text}: ${rollToText(number, dice, plus)}`;
+      }
+      return `${a}${v.text}`;
+    }, "");
+
+    onSubmitMessage(formatedMessage);
     setMessage("");
   };
   return (
