@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Paper, Typography } from "@material-ui/core";
-import Container from "../components/Container";
-import ChatList from "../components/ChatList";
-import ChatInput from "../components/ChatInput";
-import firebase from "firebase/app";
-import db from "../config/dbFirebase";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid, Paper, Typography } from '@material-ui/core';
+import Container from '../components/Container';
+import ChatList from '../components/ChatList';
+import ChatInput from '../components/ChatInput';
+import firebase from 'firebase/app';
+import db from '../config/dbFirebase';
 
 const styles = makeStyles({
   root: {
-    height: "90%",
+    height: '90%',
   },
 });
 const background =
-  "radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)";
+  'radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)';
 
 export function PlayRoom(props) {
   const [room, setRoom] = useState({});
@@ -24,7 +24,8 @@ export function PlayRoom(props) {
   const classes = styles(props);
 
   useEffect(() => {
-    db.collection("rooms")
+    db.firestore()
+      .collection('rooms')
       .doc(id)
       .get()
       .then((doc) => {
@@ -33,10 +34,11 @@ export function PlayRoom(props) {
           ...doc.data(),
         });
       });
-    db.collection("rooms")
+    db.firestore()
+      .collection('rooms')
       .doc(id)
-      .collection("messages")
-      .orderBy("created")
+      .collection('messages')
+      .orderBy('created')
       .onSnapshot((querySnapshot) => {
         const auxMessages = [];
         querySnapshot.forEach((doc) => {
@@ -50,14 +52,15 @@ export function PlayRoom(props) {
   }, [id]);
 
   const handleSubmitMessage = (message) => {
-    db.collection("rooms")
+    db.firestore()
+      .collection('rooms')
       .doc(id)
-      .collection("messages")
+      .collection('messages')
       .add({
         content: message,
         user: {
           id: 0,
-          name: "Test1",
+          name: 'Test1',
         },
         created: firebase.firestore.FieldValue.serverTimestamp(),
       });
@@ -69,7 +72,9 @@ export function PlayRoom(props) {
         <Grid container item justify="space-between" xs={12}>
           <Grid item xs={5}>
             <Paper elevation={2}>
-              <Typography variant="h5">Play room: {room.title}</Typography>
+              <Typography variant="h5">
+                Play room: {room.title}
+              </Typography>
             </Paper>
           </Grid>
           <Grid item xs={5}>
