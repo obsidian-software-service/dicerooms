@@ -4,11 +4,12 @@ import Login from "./pages/Login";
 import PlayRoom from "./pages/PlayRoom";
 import Rooms from "./pages/Rooms";
 import ModalManager from "./components/ModalManager";
+import NavBar from './components/NavBar';
 
 function App() {
   return (
     <BrowserRouter>
-      {/* TODO NAVBAR */}
+      <NavBar />
       <ModalManager />
 
       <Switch>
