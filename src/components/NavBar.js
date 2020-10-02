@@ -9,8 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import db from '../config/dbFirebase';
-import { clearUser, loadUser } from '../redux/authSlice';
+// import db from '../config/dbFirebase';
+// import { clearUser, loadUser } from '../redux/authSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme) => ({
 
 const NavBar = () => {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -38,14 +37,14 @@ const NavBar = () => {
     setAnchorEl(null);
   };
   const dispatch = useDispatch();
-  db.auth().onAuthStateChanged((user) => {
-    if (user) {
-      const { displayName, email, photoURL, uid } = user;
-      dispatch(loadUser({ displayName, email, photoURL, uid }));
-    } else {
-      dispatch(clearUser());
-    }
-  });
+  // db.auth().onAuthStateChanged((user) => {
+  //   if (user) {
+  //     const { displayName, email, photoURL, uid } = user;
+  //     dispatch(loadUser({ displayName, email, photoURL, uid }));
+  //   } else {
+  //     dispatch(clearUser());
+  //   }
+  // });
   const user = useSelector((store) => store.auth.user);
   console.log('user::::', user);
   return (
@@ -63,7 +62,7 @@ const NavBar = () => {
           <Typography variant="h6" className={classes.title}>
             {'DICEROOMS'}
           </Typography>
-          {auth && (
+          {
             <div>
               <IconButton
                 aria-label="account of current user"
@@ -93,7 +92,7 @@ const NavBar = () => {
                 <MenuItem onClick={handleClose}>My account</MenuItem>
               </Menu>
             </div>
-          )}
+          }
         </Toolbar>
       </AppBar>
     </div>
