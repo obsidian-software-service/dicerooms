@@ -18,8 +18,8 @@ const background =
   'radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)';
 
 export function PlayRoom(props) {
-  const userName = useSelector(
-    (state) => state.auth.user.displayName,
+  const { displayName, uid } = useSelector(
+    (state) => state.auth.user,
   );
   const [room, setRoom] = useState({});
   const [messages, setMessages] = useState([]);
@@ -62,8 +62,8 @@ export function PlayRoom(props) {
       .add({
         content: message,
         user: {
-          id: 0,
-          name: `${userName}`,
+          id: `${uid}`,
+          name: `${displayName}`,
         },
         created: firebase.firestore.FieldValue.serverTimestamp(),
       });
@@ -81,7 +81,7 @@ export function PlayRoom(props) {
           </Grid>
           <Grid item xs={5}>
             <Paper elevation={2}>
-              <Typography variant="h5">{`Nombre Jugador: ${userName}`}</Typography>
+              <Typography variant="h5">{`Nombre Jugador: ${displayName}`}</Typography>
             </Paper>
           </Grid>
         </Grid>
