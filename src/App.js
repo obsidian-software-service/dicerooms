@@ -1,9 +1,9 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import PlayRoom from "./pages/PlayRoom";
-import Rooms from "./pages/Rooms";
-import ModalManager from "./components/ModalManager";
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import PlayRoom from './pages/PlayRoom';
+import Rooms from './pages/Rooms';
+import ModalManager from './components/ModalManager';
 import NavBar from './components/NavBar';
 
 function App() {

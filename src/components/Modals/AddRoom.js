@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, TextField, Button } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
-import { useDispatch } from "react-redux";
-import { hideModal } from "../../redux/modalSlice";
-import db from "../../config/dbFirebase";
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid, TextField, Button } from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import { useDispatch } from 'react-redux';
+import { hideModal } from '../../redux/modalSlice';
+import db from '../../config/dbFirebase';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
+    border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
@@ -23,14 +23,14 @@ const useStyles = makeStyles((theme) => ({
 const AddRoom = (props) => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const [title, setTitle] = useState("");
-  const [password, setPassword] = useState("");
+  const [title, setTitle] = useState('');
+  const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
 
   const handleCreate = async () => {
     setLoading(true);
-    await db.collection("rooms").add({
+    await db.firestore().collection('rooms').add({
       title,
       password,
     });

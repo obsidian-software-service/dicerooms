@@ -1,10 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "./counterSlice";
-import modalReducer from "./modalSlice";
+import { configureStore } from '@reduxjs/toolkit';
+
+import modalReducer from './modalSlice';
+import authReducer from './authSlice';
 
 export default configureStore({
   reducer: {
-    counter: counterReducer,
     modal: modalReducer,
+    auth: authReducer,
   },
 });
