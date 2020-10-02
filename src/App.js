@@ -1,9 +1,10 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import PlayRoom from "./pages/PlayRoom";
-import Rooms from "./pages/Rooms";
-import ModalManager from "./components/ModalManager";
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
+import Login from './pages/Login';
+import PlayRoom from './pages/PlayRoom';
+import Rooms from './pages/Rooms';
+import ModalManager from './components/ModalManager';
 import NavBar from './components/NavBar';
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
 
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route exact path="/rooms" component={Rooms} />
+        <PrivateRoute exact path="/rooms" component={Rooms} />
         <Route path="/rooms/:id" component={PlayRoom} />
       </Switch>
     </BrowserRouter>
