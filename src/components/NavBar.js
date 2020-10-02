@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,8 +9,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-// import db from '../config/dbFirebase';
-// import { clearUser, loadUser } from '../redux/authSlice';
+import db from '../config/dbFirebase';
+import { clearUser, loadUser } from '../redux/authSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,14 +37,17 @@ const NavBar = () => {
     setAnchorEl(null);
   };
   const dispatch = useDispatch();
-  // db.auth().onAuthStateChanged((user) => {
-  //   if (user) {
-  //     const { displayName, email, photoURL, uid } = user;
-  //     dispatch(loadUser({ displayName, email, photoURL, uid }));
-  //   } else {
-  //     dispatch(clearUser());
-  //   }
-  // });
+  useEffect(() => {
+    db.auth().onAuthStateChanged((user) => {
+      if (user) {
+        const { displayName, email, photoURL, uid } = user;
+        dispatch(loadUser({ displayName, email, photoURL, uid }));
+      } else {
+        dispatch(clearUser());
+      }
+    });
+  }, []);
+
   const user = useSelector((store) => store.auth.user);
   console.log('user::::', user);
   return (
