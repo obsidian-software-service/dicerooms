@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  avatar: { borderRadius: '50%' },
 }));
 
 const NavBar = () => {
@@ -114,6 +115,7 @@ const NavBar = () => {
                     height="32px"
                     width="32px"
                     alt="Profile"
+                    className={classes.avatar}
                   />
                 ) : (
                   <AccountCircle />
