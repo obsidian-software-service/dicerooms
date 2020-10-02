@@ -1,14 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
+import {
+  IconButton,
+  Typography,
+  Toolbar,
+  AppBar,
+  MenuItem,
+  Menu,
+} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import db from '../config/dbFirebase';
 import { clearUser, loadUser } from '../redux/authSlice';
 
@@ -25,7 +28,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = () => {
+  const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -36,14 +41,41 @@ const NavBar = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    db.auth()
+      .signOut()
+      .then(() => {
+        dispatch(clearUser());
+        history.push('/');
+      });
+    setAnchorEl(null);
+  };
   useEffect(() => {
     db.auth().onAuthStateChanged((user) => {
       if (user) {
-        const { displayName, email, photoURL, uid } = user;
-        dispatch(loadUser({ displayName, email, photoURL, uid }));
+        const {
+          displayName,
+          email,
+          photoURL,
+          uid,
+          providerData,
+        } = user;
+        dispatch(
+          loadUser({
+            displayName,
+            email,
+            photoURL,
+            uid,
+            providerData,
+          }),
+        );
       } else {
-        dispatch(clearUser());
+        db.auth()
+          .signOut()
+          .then(() => {
+            dispatch(clearUser());
+          });
       }
     });
   }, [dispatch]);
@@ -103,7 +135,7 @@ const NavBar = () => {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
+                <MenuItem onClick={handleLogout}>Salir</MenuItem>
               </Menu>
             </div>
           }
