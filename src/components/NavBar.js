@@ -46,10 +46,9 @@ const NavBar = () => {
         dispatch(clearUser());
       }
     });
-  }, []);
+  }, [dispatch]);
 
   const user = useSelector((store) => store.auth.user);
-  console.log('user::::', user);
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -67,6 +66,9 @@ const NavBar = () => {
           </Typography>
           {
             <div>
+              <Typography variant="caption">
+                {user.displayName}
+              </Typography>
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -74,7 +76,16 @@ const NavBar = () => {
                 onClick={handleMenu}
                 color="inherit"
               >
-                <AccountCircle />
+                {user.photoURL ? (
+                  <img
+                    src={`${user.photoURL}`}
+                    height="32px"
+                    width="32px"
+                    alt="Profile"
+                  />
+                ) : (
+                  <AccountCircle />
+                )}
               </IconButton>
               <Menu
                 id="menu-appbar"
