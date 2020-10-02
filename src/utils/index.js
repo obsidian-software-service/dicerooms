@@ -6,11 +6,11 @@ export const textDescriptor = (txt) => {
   while (!!match) {
     descriptor.push({
       text: txt.substring(index, match.index),
-      type: "regular",
+      type: 'regular',
     });
     descriptor.push({
       text: match[0],
-      type: "dice",
+      type: 'dice',
       number: match[2],
       dice: match[3],
       plus: match[4],
@@ -20,9 +20,8 @@ export const textDescriptor = (txt) => {
   }
   descriptor.push({
     text: txt.substring(index),
-    type: "regular",
+    type: 'regular',
   });
-  console.log("descriptor:", descriptor);
 
   return descriptor;
 };
@@ -41,5 +40,5 @@ export const roll = (number, dice) => {
 export const rollToText = (number, dice, plus) => {
   const { rolls, sum } = roll(number, dice);
   const total = !!plus ? sum + parseInt(plus) : sum;
-  return `[${rolls.join(",")}]${plus}=${total}`;
+  return `[${rolls.join(',')}]${plus}=${total}`;
 };

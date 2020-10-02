@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, Paper, Typography } from '@material-ui/core';
@@ -17,9 +18,11 @@ const background =
   'radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)';
 
 export function PlayRoom(props) {
+  const { displayName, uid } = useSelector(
+    (state) => state.auth.user,
+  );
   const [room, setRoom] = useState({});
   const [messages, setMessages] = useState([]);
-
   const { id } = useParams();
   const classes = styles(props);
 
@@ -59,13 +62,12 @@ export function PlayRoom(props) {
       .add({
         content: message,
         user: {
-          id: 0,
-          name: 'Test1',
+          id: `${uid}`,
+          name: `${displayName}`,
         },
         created: firebase.firestore.FieldValue.serverTimestamp(),
       });
   };
-
   return (
     <Container background={background} transparent>
       <Grid container spacing={2} xs={12} className={classes.root}>
@@ -79,7 +81,7 @@ export function PlayRoom(props) {
           </Grid>
           <Grid item xs={5}>
             <Paper elevation={2}>
-              <Typography variant="h5">Nombre Jugador</Typography>
+              <Typography variant="h5">{`Nombre Jugador: ${displayName}`}</Typography>
             </Paper>
           </Grid>
         </Grid>
