@@ -1,10 +1,8 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
 import firebase from 'firebase/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import store from '../redux/store';
 
 const style = makeStyles({
   root: {
@@ -41,14 +39,10 @@ const Login = () => {
         <Typography variant="h2" className={classes.title}>
           {'Ingresa'}
         </Typography>
-        {store.getState().auth.loaded ? (
-          <StyledFirebaseAuth
-            uiConfig={uiConfig}
-            firebaseAuth={firebase.auth()}
-          />
-        ) : (
-          <Redirect to="/rooms" />
-        )}
+        <StyledFirebaseAuth
+          uiConfig={uiConfig}
+          firebaseAuth={firebase.auth()}
+        />
       </Grid>
     </>
   );
