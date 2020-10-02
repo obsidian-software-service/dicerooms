@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import PrivateRoute from './components/PrivateRoute';
 import Login from './pages/Login';
 import PlayRoom from './pages/PlayRoom';
 import Rooms from './pages/Rooms';
@@ -15,7 +14,7 @@ function App() {
 
       <Switch>
         <Route exact path="/" component={Login} />
-        <PrivateRoute exact path="/rooms" component={Rooms} />
+        <Route exact path="/rooms" component={Rooms} />
         <Route path="/rooms/:id" component={PlayRoom} />
       </Switch>
     </BrowserRouter>
