@@ -28,6 +28,7 @@ const styles = makeStyles({
   },
   regular: {
     display: 'inline',
+    overflowWrap: 'anywhere',
   },
 });
 export function Chatitem({ msg }) {
