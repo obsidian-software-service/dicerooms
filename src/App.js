@@ -16,7 +16,7 @@ function App() {
       <Switch>
         <Route exact path="/" component={Login} />
         <PrivateRoute exact path="/rooms" component={Rooms} />
-        <Route path="/rooms/:id" component={PlayRoom} />
+        <PrivateRoute path="/rooms/:id" component={PlayRoom} />
       </Switch>
     </BrowserRouter>
   );

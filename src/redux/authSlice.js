@@ -32,12 +32,12 @@ export const { loadUser, unloadUser } = authSlice.actions;
 
 export const saveUser = (profile) => (dispatch) => {
   localStorage.setItem('profile', profile);
-  dispatch(loadUser);
+  dispatch(loadUser(profile));
 };
 
 export const clearUser = () => (dispatch) => {
   localStorage.removeItem('profile');
-  dispatch(unloadUser);
+  dispatch(unloadUser());
 };
 
 export default authSlice.reducer;
