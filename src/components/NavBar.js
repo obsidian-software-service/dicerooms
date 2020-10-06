@@ -13,7 +13,7 @@ import {
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import db from '../config/dbFirebase';
-import { clearUser, loadUser } from '../redux/authSlice';
+import { clearUser, saveUser } from '../redux/authSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,6 +52,7 @@ const NavBar = () => {
       });
     setAnchorEl(null);
   };
+
   useEffect(() => {
     db.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -63,7 +64,7 @@ const NavBar = () => {
           providerData,
         } = user;
         dispatch(
-          loadUser({
+          saveUser({
             displayName,
             email,
             photoURL,
