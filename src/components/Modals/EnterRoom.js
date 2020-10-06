@@ -33,25 +33,30 @@ const AddRoom = ({ title, id }) => {
   let history = useHistory();
 
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
 
   const user = useSelector((store) => store.auth.user);
 
   const dispatch = useDispatch();
   const handleEnter = async () => {
-    await db
-      .firestore()
-      .collection('rooms')
-      .doc(id)
-      .collection('private')
-      .doc('data')
-      .update({
-        password,
-        allowedUsers: firebase.firestore.FieldValue.arrayUnion(
-          user.uid,
-        ),
-      });
-    history.push(`/rooms/${id}`);
-    dispatch(hideModal());
+    try {
+      await db
+        .firestore()
+        .collection('rooms')
+        .doc(id)
+        .collection('private')
+        .doc('data')
+        .update({
+          password,
+          allowedUsers: firebase.firestore.FieldValue.arrayUnion(
+            user.uid,
+          ),
+        });
+      history.push(`/rooms/${id}`);
+      dispatch(hideModal());
+    } catch (err) {
+      setErrorMsg('Password Invalido');
+    }
   };
 
   return (
@@ -64,6 +69,9 @@ const AddRoom = ({ title, id }) => {
     >
       <Grid item>
         <h2 id="transition-modal-title">Ingresar a Sala</h2>
+        <Typography variant="body" color="error">
+          {errorMsg}
+        </Typography>
       </Grid>
       <Grid item container xs={12} justify="center">
         <Typography variant="h6">{title}</Typography>
