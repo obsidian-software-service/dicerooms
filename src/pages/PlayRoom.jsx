@@ -6,6 +6,7 @@ import { Grid, Paper, Typography } from '@material-ui/core';
 import Container from '../components/Container';
 import ChatList from '../components/ChatList';
 import ChatInput from '../components/ChatInput';
+import { assignColor } from '../utils';
 import firebase from 'firebase/app';
 import db from '../config/dbFirebase';
 
@@ -69,31 +70,6 @@ export function PlayRoom(props) {
         },
         created: firebase.firestore.FieldValue.serverTimestamp(),
       });
-  };
-
-  function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = array[i];
-      array[i] = array[j];
-      array[j] = temp;
-    }
-  }
-  const colorMap = {};
-  const assignColor = (uid) => {
-    const arrColor = [
-      '#0055ff',
-      '#d64d0d',
-      '#cc0cb6',
-      '#0bad09',
-      '#f5e507',
-    ];
-    shuffleArray(arrColor);
-    if (!colorMap[uid]) {
-      colorMap[uid] =
-        arrColor[Object.entries(colorMap).length % arrColor.length];
-    }
-    return colorMap[uid];
   };
 
   return (
