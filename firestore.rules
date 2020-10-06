@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  	match /rooms/{roomId} {
+      allow read, write: if true;
+    }
+    match /rooms/{roomId}/messages/{document} {
+    function isAllowed() {
+    	return (request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)/private/data).data.allowedUsers);
+    }
+      allow read, write: if isAllowed();
+    }
+    match /rooms/{roomId}/private/{document} {
+      function isCreated() {
+        return exists(/databases/$(database)/documents/rooms/$(roomId)/private/data);
+      }
+      allow read, write: if !isCreated() || resource.data.password == request.resource.data.password;
+    }
+  }
+}

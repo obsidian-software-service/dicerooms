@@ -49,7 +49,7 @@ const AddRoom = (props) => {
       .doc('data')
       .set({
         password,
-        allowedUsers: [user],
+        allowedUsers: [user.uid],
       });
 
     setLoading(false);
