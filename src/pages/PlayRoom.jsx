@@ -14,6 +14,14 @@ const styles = makeStyles({
   root: {
     height: '90%',
   },
+  title: {
+    textTransform: 'uppercase',
+    marginLeft: '1em',
+    fontWeight: 'bold',
+  },
+  displayName: {
+    fontWeight: 'bold',
+  },
 });
 const background =
   'radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)';
@@ -78,14 +86,27 @@ export function PlayRoom(props) {
         <Grid container item justify="space-between" xs={12}>
           <Grid item xs={5}>
             <Paper elevation={2}>
-              <Typography variant="h5">
-                Play room: {room.title}
-              </Typography>
+              <Grid container direction="row" justify="center">
+                <Typography variant="h5">{'Play room:'}</Typography>
+                <Typography variant="h5" className={classes.title}>
+                  {room.title}
+                </Typography>
+              </Grid>
             </Paper>
           </Grid>
           <Grid item xs={5}>
             <Paper elevation={2}>
-              <Typography variant="h5">{`Nombre Jugador: ${displayName}`}</Typography>
+              <Grid container direction="row" justify="space-around">
+                <Typography variant="h5">
+                  {'Nombre Jugador:'}
+                </Typography>
+                <Typography
+                  variant="h5"
+                  className={classes.displayName}
+                >
+                  {displayName}
+                </Typography>
+              </Grid>
             </Paper>
           </Grid>
         </Grid>

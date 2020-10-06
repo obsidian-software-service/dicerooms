@@ -40,7 +40,10 @@ export const roll = (number, dice) => {
 export const rollToText = (number, dice, plus) => {
   const { rolls, sum } = roll(number, dice);
   const total = !!plus ? sum + parseInt(plus) : sum;
-  return `[${rolls.join(',')}]${plus}=${total}`;
+  if (!!plus) {
+    return `[${rolls.join(', ')}]${plus}=${total}`;
+  }
+  return `[${rolls.join(', ')}]=${total}`;
 };
 
 function shuffleArray(array) {
