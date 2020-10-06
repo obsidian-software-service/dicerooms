@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, TextField, Button } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../redux/modalSlice';
 import db from '../../config/dbFirebase';
 
@@ -26,14 +26,32 @@ const AddRoom = (props) => {
   const [title, setTitle] = useState('');
   const [password, setPassword] = useState('');
 
+  const user = useSelector((store) => store.auth.user);
+
   const dispatch = useDispatch();
 
   const handleCreate = async () => {
     setLoading(true);
-    await db.firestore().collection('rooms').add({
-      title,
-      password,
-    });
+    const { id } = await db
+      .firestore()
+      .collection('rooms')
+      .add({
+        title,
+        private: password.length > 0,
+        owner: user,
+      });
+
+    await db
+      .firestore()
+      .collection('rooms')
+      .doc(id)
+      .collection('private')
+      .doc('data')
+      .set({
+        password,
+        allowedUsers: [user],
+      });
+
     setLoading(false);
     dispatch(hideModal());
   };
