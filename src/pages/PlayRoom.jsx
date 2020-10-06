@@ -6,6 +6,7 @@ import { Grid, Paper, Typography } from '@material-ui/core';
 import Container from '../components/Container';
 import ChatList from '../components/ChatList';
 import ChatInput from '../components/ChatInput';
+import { assignColor } from '../utils';
 import firebase from 'firebase/app';
 import db from '../config/dbFirebase';
 
@@ -45,8 +46,10 @@ export function PlayRoom(props) {
       .onSnapshot((querySnapshot) => {
         const auxMessages = [];
         querySnapshot.forEach((doc) => {
+          const { user } = doc.data();
           auxMessages.push({
             id: doc.id,
+            color: assignColor(user.id),
             ...doc.data(),
           });
         });
@@ -68,6 +71,7 @@ export function PlayRoom(props) {
         created: firebase.firestore.FieldValue.serverTimestamp(),
       });
   };
+
   return (
     <Container background={background} transparent>
       <Grid container spacing={2} xs={12} className={classes.root}>

@@ -42,3 +42,28 @@ export const rollToText = (number, dice, plus) => {
   const total = !!plus ? sum + parseInt(plus) : sum;
   return `[${rolls.join(',')}]${plus}=${total}`;
 };
+
+function shuffleArray(array) {
+  for (var i = array.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+  }
+}
+const colorMap = {};
+export const assignColor = (uid) => {
+  const arrColor = [
+    '#0055ff',
+    '#d64d0d',
+    '#cc0cb6',
+    '#0bad09',
+    '#f5e507',
+  ];
+  shuffleArray(arrColor);
+  if (!colorMap[uid]) {
+    colorMap[uid] =
+      arrColor[Object.entries(colorMap).length % arrColor.length];
+  }
+  return colorMap[uid];
+};

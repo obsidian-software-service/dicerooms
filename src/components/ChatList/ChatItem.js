@@ -1,42 +1,44 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid, Paper, Typography } from "@material-ui/core";
-import { textDescriptor } from "../../utils";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid, Paper, Typography } from '@material-ui/core';
+import { textDescriptor } from '../../utils';
 
 const styles = makeStyles({
   root: {
     margin: 5,
-    width: "fit-content",
-    maxWidth: "85%",
+    width: 'fit-content',
+    maxWidth: '85%',
   },
   paper: {
     padding: 8,
   },
   userName: {
     marginRight: 5,
-    fontWeight: "bold",
-    color: "#F00",
-    lineHeight: "24px",
+    fontWeight: 'bold',
+    color: (props) => props.color || '#efec',
+    lineHeight: '24px',
   },
   content: {
-    lineHeight: "24px",
-    display: "inline",
+    lineHeight: '24px',
+    display: 'inline',
   },
   dice: {
-    display: "inline",
-    fontWeight: "bold",
+    display: 'inline',
+    fontWeight: 'bold',
   },
   regular: {
-    display: "inline",
+    display: 'inline',
   },
 });
 export function Chatitem({ msg }) {
-  const classes = styles();
+  const classes = styles({ color: msg.color });
 
   const formatedText = () =>
     textDescriptor(msg.content).map((des) => (
       <Typography
-        className={des.type === "dice" ? classes.dice : classes.regular}
+        className={
+          des.type === 'dice' ? classes.dice : classes.regular
+        }
       >
         {des.text}
       </Typography>
