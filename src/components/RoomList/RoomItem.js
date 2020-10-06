@@ -1,15 +1,20 @@
-import React from "react";
-import { ListItem, ListItemIcon, ListItemText, Grid } from "@material-ui/core";
-import GroupIcon from "@material-ui/icons/Group";
-import LockIcon from "@material-ui/icons/Lock";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
-import { useDispatch } from "react-redux";
-import { openModal } from "../../redux/modalSlice";
+import React from 'react';
+import {
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Grid,
+} from '@material-ui/core';
+import GroupIcon from '@material-ui/icons/Group';
+import LockIcon from '@material-ui/icons/Lock';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import { useDispatch } from 'react-redux';
+import { openModal } from '../../redux/modalSlice';
 
 export default function RoomItem({ room }) {
   const dispatch = useDispatch();
   const handleEnterRoomModal = () => {
-    dispatch(openModal({ modalType: "enter", content: room }));
+    dispatch(openModal({ modalType: 'enter', content: room }));
   };
 
   return (
@@ -28,7 +33,7 @@ export default function RoomItem({ room }) {
       <ListItemIcon>
         <Grid container spacing={2} alignItems="center">
           <Grid item>
-            {room.password.length > 0 ? <LockIcon /> : <LockOpenIcon />}
+            {room.private ? <LockIcon /> : <LockOpenIcon />}
           </Grid>
         </Grid>
       </ListItemIcon>
