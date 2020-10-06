@@ -5,6 +5,7 @@ import PlayRoom from './pages/PlayRoom';
 import Rooms from './pages/Rooms';
 import ModalManager from './components/ModalManager';
 import NavBar from './components/NavBar';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
@@ -14,8 +15,8 @@ function App() {
 
       <Switch>
         <Route exact path="/" component={Login} />
-        <Route exact path="/rooms" component={Rooms} />
-        <Route path="/rooms/:id" component={PlayRoom} />
+        <PrivateRoute exact path="/rooms" component={Rooms} />
+        <PrivateRoute path="/rooms/:id" component={PlayRoom} />
       </Switch>
     </BrowserRouter>
   );
