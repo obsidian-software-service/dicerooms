@@ -78,6 +78,13 @@ export function PlayRoom(props) {
         },
         created: firebase.firestore.FieldValue.serverTimestamp(),
       });
+
+    db.firestore()
+      .collection('rooms')
+      .doc(id)
+      .update({
+        [`activeUsers.${uid}`]: firebase.firestore.FieldValue.serverTimestamp(),
+      });
   };
 
   return (
