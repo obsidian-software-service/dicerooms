@@ -52,6 +52,14 @@ const AddRoom = ({ title, id }) => {
             user.uid,
           ),
         });
+
+      db.firestore()
+        .collection('rooms')
+        .doc(id)
+        .update({
+          [`activeUsers.${user.uid}`]: firebase.firestore.FieldValue.serverTimestamp(),
+        });
+
       history.push(`/rooms/${id}`);
       dispatch(hideModal());
     } catch (err) {

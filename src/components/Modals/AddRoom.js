@@ -5,6 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../redux/modalSlice';
 import db from '../../config/dbFirebase';
+import firebase from 'firebase';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -39,6 +40,9 @@ const AddRoom = (props) => {
         title,
         private: password.length > 0,
         owner: user,
+        activeUsers: {
+          [user.uid]: firebase.firestore.FieldValue.serverTimestamp(),
+        },
       });
 
     await db

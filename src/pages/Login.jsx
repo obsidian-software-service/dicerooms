@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import firebase from 'firebase/app';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { Grid, Typography } from '@material-ui/core';
@@ -21,6 +23,12 @@ const style = makeStyles({
   title: { color: '#fff', fontWeight: 'bold' },
 });
 const Login = () => {
+  const loaded = useSelector((state) => state.auth.loaded);
+  const history = useHistory();
+  if (loaded) {
+    history.push('/rooms');
+  }
+
   const uiConfig = {
     signInFlow: 'popup',
     signInSuccessUrl: '/rooms',

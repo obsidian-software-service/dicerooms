@@ -26,6 +26,8 @@ const styles = makeStyles({
 const background =
   'radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)';
 
+let timeOut = null;
+
 export function PlayRoom(props) {
   const { displayName, uid } = useSelector(
     (state) => state.auth.user,
@@ -78,7 +80,34 @@ export function PlayRoom(props) {
         },
         created: firebase.firestore.FieldValue.serverTimestamp(),
       });
+
+    db.firestore()
+      .collection('rooms')
+      .doc(id)
+      .update({
+        [`activeUsers.${uid}`]: firebase.firestore.FieldValue.serverTimestamp(),
+      });
   };
+
+  const startTimer = () => {
+    if (timeOut) {
+      clearTimeout(timeOut);
+    }
+    timeOut = setTimeout(() => {
+      alert('Estas ahi?');
+      db.firestore()
+        .collection('rooms')
+        .doc(id)
+        .update({
+          [`activeUsers.${uid}`]: firebase.firestore.FieldValue.serverTimestamp(),
+        });
+      startTimer();
+    }, 30 * 60 * 1000);
+  };
+
+  useEffect(() => {
+    startTimer();
+  });
 
   return (
     <Container background={background} transparent>
