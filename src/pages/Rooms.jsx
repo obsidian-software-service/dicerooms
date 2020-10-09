@@ -19,6 +19,9 @@ const styles = makeStyles({
   rooms: {
     height: '100%',
   },
+  titleRooms: {
+    textAlign: 'center',
+  },
 });
 const background =
   'radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%)';
@@ -58,7 +61,9 @@ export function Rooms(props) {
         <Grid item container spacing={2}>
           <Grid item xs={8}>
             <Paper elevation={2}>
-              <Typography variant="h4">Salas</Typography>
+              <Typography variant="h4" className={classes.titleRooms}>
+                Salas
+              </Typography>
             </Paper>
           </Grid>
           <Grid item xs={4}>
