@@ -61,7 +61,7 @@ export const assignColor = (uid) => {
     '#d64d0d',
     '#cc0cb6',
     '#0bad09',
-    '#f5e507',
+    '#d19c08',
   ];
   shuffleArray(arrColor);
   if (!colorMap[uid]) {
