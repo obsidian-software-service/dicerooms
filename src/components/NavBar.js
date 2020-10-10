@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   IconButton,
+  Button,
   Typography,
   Toolbar,
   AppBar,
   MenuItem,
   Menu,
 } from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import db from '../config/dbFirebase';
 import { clearUser, saveUser } from '../redux/authSlice';
 
@@ -24,12 +25,14 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    cursor: 'default',
   },
   avatar: { borderRadius: '50%' },
 }));
 
 const NavBar = () => {
   const history = useHistory();
+  const location = useLocation();
   const classes = useStyles();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -51,6 +54,10 @@ const NavBar = () => {
         history.push('/');
       });
     setAnchorEl(null);
+  };
+
+  const handleGoBack = () => {
+    history.push('/rooms');
   };
 
   useEffect(() => {
@@ -83,10 +90,25 @@ const NavBar = () => {
   }, [dispatch]);
 
   const user = useSelector((store) => store.auth.user);
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+          <Button
+            onClick={handleGoBack}
+            color="inherit"
+            disabled={
+              location.pathname === '/rooms' ||
+              location.pathname === '/'
+                ? true
+                : false
+            }
+            className={classes.menuButton}
+          >
+            <ArrowBackIosIcon />
+            <Typography variant="caption">Rooms</Typography>
+          </Button>
           <Typography variant="h6" className={classes.title}>
             {'DICEROOMS'}
           </Typography>
@@ -129,7 +151,9 @@ const NavBar = () => {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose} disabled={true}>
+                  Profile
+                </MenuItem>
                 <MenuItem onClick={handleLogout}>Salir</MenuItem>
               </Menu>
             </div>
