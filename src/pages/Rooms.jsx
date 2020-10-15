@@ -58,15 +58,15 @@ export function Rooms(props) {
         className={classes.root}
         direction="column"
       >
-        <Grid item container spacing={2}>
-          <Grid item xs={8}>
+        <Grid item container spacing={2} alignItems="center">
+          <Grid item xs={6} sm={8}>
             <Paper elevation={2}>
               <Typography variant="h4" className={classes.titleRooms}>
-                Salas
+                {'Salas'}
               </Typography>
             </Paper>
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={6} sm={4}>
             <Paper elevation={2}>
               <Button
                 variant="contained"
@@ -77,7 +77,9 @@ export function Rooms(props) {
                 fullWidth
                 onClick={handleAddRoomModal}
               >
-                Agregar Sala
+                <Typography variant="button">
+                  {'Agregar Sala'}
+                </Typography>
               </Button>
             </Paper>
           </Grid>

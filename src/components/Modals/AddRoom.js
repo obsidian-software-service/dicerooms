@@ -64,7 +64,8 @@ const AddRoom = (props) => {
     <Grid
       container
       item
-      xs={6}
+      xs={10}
+      sm={6}
       className={classes.paper}
       direction="column"
       spacing={2}

@@ -112,10 +112,15 @@ export function PlayRoom(props) {
   return (
     <Container background={background} transparent>
       <Grid container spacing={2} xs={12} className={classes.root}>
-        <Grid container item justify="space-between" xs={12}>
-          <Grid item xs={5}>
+        <Grid
+          container
+          item
+          justify="space-between"
+          alignItems="center"
+        >
+          <Grid item xs={12} sm={5}>
             <Paper elevation={2}>
-              <Grid container direction="row" justify="center">
+              <Grid container direction="row" justify="space-around">
                 <Typography variant="h5">{'Play room:'}</Typography>
                 <Typography variant="h5" className={classes.title}>
                   {room.title}
@@ -123,7 +128,7 @@ export function PlayRoom(props) {
               </Grid>
             </Paper>
           </Grid>
-          <Grid item xs={5}>
+          <Grid item xs={12} sm={5}>
             <Paper elevation={2}>
               <Grid container direction="row" justify="space-around">
                 <Typography variant="h5">

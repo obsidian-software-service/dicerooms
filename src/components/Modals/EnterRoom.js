@@ -70,7 +70,8 @@ const AddRoom = ({ title, id }) => {
   return (
     <Grid
       container
-      xs={6}
+      xs={10}
+      sm={6}
       className={classes.paper}
       direction="column"
       spacing={2}
@@ -106,7 +107,7 @@ const AddRoom = ({ title, id }) => {
           fullWidth
           onClick={handleEnter}
         >
-          Ingresar
+          <Typography variant="button">{'Ingresar'}</Typography>
         </Button>
       </Grid>
     </Grid>
