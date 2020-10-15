@@ -10,6 +10,7 @@ import {
   AppBar,
   MenuItem,
   Menu,
+  Avatar,
 } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
@@ -23,6 +24,12 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  buttonGoBack: {
+    display: ({ location }) =>
+      location.pathname === '/rooms' || location.pathname === '/'
+        ? 'none'
+        : '',
+  },
   title: {
     flexGrow: 1,
     cursor: 'default',
@@ -33,10 +40,11 @@ const useStyles = makeStyles((theme) => ({
 const NavBar = () => {
   const history = useHistory();
   const location = useLocation();
-  const classes = useStyles();
+  const classes = useStyles({ location });
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
+  const user = useSelector((store) => store.auth.user);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -89,29 +97,21 @@ const NavBar = () => {
     });
   }, [dispatch]);
 
-  const user = useSelector((store) => store.auth.user);
-
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+          <Typography variant="h6" className={classes.title}>
+            {'DICEROOMS'}
+          </Typography>
           <Button
             onClick={handleGoBack}
             color="inherit"
-            disabled={
-              location.pathname === '/rooms' ||
-              location.pathname === '/'
-                ? true
-                : false
-            }
-            className={classes.menuButton}
+            className={`${classes.menuButton} ${classes.buttonGoBack}`}
           >
             <ArrowBackIosIcon />
             <Typography variant="caption">Rooms</Typography>
           </Button>
-          <Typography variant="h6" className={classes.title}>
-            {'DICEROOMS'}
-          </Typography>
           {
             <div>
               <Typography variant="caption">
@@ -125,10 +125,8 @@ const NavBar = () => {
                 color="inherit"
               >
                 {user.photoURL ? (
-                  <img
+                  <Avatar
                     src={`${user.photoURL}`}
-                    height="32px"
-                    width="32px"
                     alt="Profile"
                     className={classes.avatar}
                   />
