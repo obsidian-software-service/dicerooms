@@ -59,6 +59,7 @@ export function ChatInput({ onSubmitMessage }) {
                   <ColoredInput
                     onChange={(e) => setMessage(e.target.value)}
                     value={message}
+                    required
                   />
                 </Grid>
                 <Grid item xs={2}>
