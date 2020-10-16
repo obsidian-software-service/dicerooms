@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  inputPassword: {
+    display: ({ protect }) => (protect ? '' : 'none'),
+  },
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
@@ -28,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddRoom = ({ title, id }) => {
-  const classes = useStyles();
+const AddRoom = ({ title, id, protect }) => {
+  const classes = useStyles({ protect });
   let history = useHistory();
 
   const [password, setPassword] = useState('');
@@ -39,31 +42,36 @@ const AddRoom = ({ title, id }) => {
 
   const dispatch = useDispatch();
   const handleEnter = async () => {
-    try {
-      await db
-        .firestore()
-        .collection('rooms')
-        .doc(id)
-        .collection('private')
-        .doc('data')
-        .update({
-          password,
-          allowedUsers: firebase.firestore.FieldValue.arrayUnion(
-            user.uid,
-          ),
-        });
+    if (protect) {
+      try {
+        await db
+          .firestore()
+          .collection('rooms')
+          .doc(id)
+          .collection('private')
+          .doc('data')
+          .update({
+            password,
+            allowedUsers: firebase.firestore.FieldValue.arrayUnion(
+              user.uid,
+            ),
+          });
 
-      db.firestore()
-        .collection('rooms')
-        .doc(id)
-        .update({
-          [`activeUsers.${user.uid}`]: firebase.firestore.FieldValue.serverTimestamp(),
-        });
+        db.firestore()
+          .collection('rooms')
+          .doc(id)
+          .update({
+            [`activeUsers.${user.uid}`]: firebase.firestore.FieldValue.serverTimestamp(),
+          });
 
+        history.push(`/rooms/${id}`);
+        dispatch(hideModal());
+      } catch (err) {
+        setErrorMsg('Password Invalido');
+      }
+    } else {
       history.push(`/rooms/${id}`);
       dispatch(hideModal());
-    } catch (err) {
-      setErrorMsg('Password Invalido');
     }
   };
 
@@ -86,16 +94,20 @@ const AddRoom = ({ title, id }) => {
         <Typography variant="h6">{title}</Typography>
       </Grid>
       <Grid item xs={12}>
-        <TextField
-          id="password"
-          label="Password"
-          variant="outlined"
-          size="small"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          fullWidth
-        />
+        {
+          <TextField
+            id="password"
+            label="Password"
+            variant="outlined"
+            size="small"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            fullWidth
+            autoFocus={protect}
+            className={classes.inputPassword}
+          />
+        }
       </Grid>
       <Grid item xs={12}>
         <Button
@@ -106,6 +118,7 @@ const AddRoom = ({ title, id }) => {
           size="large"
           fullWidth
           onClick={handleEnter}
+          autoFocus={!protect}
         >
           <Typography variant="button">{'Ingresar'}</Typography>
         </Button>

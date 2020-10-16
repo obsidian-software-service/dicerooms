@@ -1,16 +1,16 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Modal, Backdrop, Fade } from "@material-ui/core";
-import { useDispatch, useSelector } from "react-redux";
-import { hideModal } from "../redux/modalSlice";
-import AddRoom from "./Modals/AddRoom";
-import EnterRoom from "./Modals/EnterRoom";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { Modal, Backdrop, Fade } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+import { hideModal } from '../redux/modalSlice';
+import AddRoom from './Modals/AddRoom';
+import EnterRoom from './Modals/EnterRoom';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 }));
 
@@ -20,16 +20,24 @@ const ModalManager = (props) => {
   const handleClose = () => {
     dispatch(hideModal());
   };
+  const user = useSelector((state) => state.auth.user);
   const open = useSelector((state) => state.modal.open);
   const type = useSelector((state) => state.modal.type);
   const content = useSelector((state) => state.modal.content);
+  const unregistered = content && !content.activeUsers[user.uid];
 
   const selectedModal = () => {
     switch (type) {
-      case "add":
+      case 'add':
         return <AddRoom />;
-      case "enter":
-        return <EnterRoom title={content.title} id={content.id} />;
+      case 'enter':
+        return (
+          <EnterRoom
+            title={content.title}
+            id={content.id}
+            protect={unregistered && content.private}
+          />
+        );
       default:
         return <h1>No modal</h1>;
     }
