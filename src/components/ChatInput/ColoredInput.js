@@ -1,42 +1,44 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { TextField, Typography } from "@material-ui/core";
-import { textDescriptor } from "../../utils";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { TextField, Typography } from '@material-ui/core';
+import { textDescriptor } from '../../utils';
 
 const styles = makeStyles({
   root: {
-    position: "relative",
+    position: 'relative',
   },
   textContainer: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
     right: 0,
-    padding: "8px 14px",
-    pointerEvents: "none",
+    padding: '8px 14px',
+    pointerEvents: 'none',
   },
   dice: {
-    display: "inline",
-    color: "#F00",
+    display: 'inline',
+    color: '#F00',
   },
   regular: {
-    display: "inline",
-    color: "#000",
+    display: 'inline',
+    color: '#000',
   },
   input: {
-    "&input": {
-      color: "transparent",
+    '&input': {
+      color: 'transparent',
     },
   },
 });
 
-export function ChatInput({ onChange, value }) {
+export function ChatInput({ onChange, value, ...otherProps }) {
   const classes = styles();
   const formatedText = () =>
     textDescriptor(value).map((des) => (
       <Typography
-        className={des.type === "dice" ? classes.dice : classes.regular}
+        className={
+          des.type === 'dice' ? classes.dice : classes.regular
+        }
       >
         {des.text}
       </Typography>
@@ -52,6 +54,7 @@ export function ChatInput({ onChange, value }) {
         onChange={onChange}
         value={value}
         className={classes.input}
+        {...otherProps}
       />
       <div className={classes.textContainer}>{formatedText()}</div>
     </div>
