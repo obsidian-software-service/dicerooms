@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  inputPassword: {
+    display: ({ protect }) => (protect ? '' : 'none'),
+  },
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
@@ -28,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddRoom = ({ title, id }) => {
-  const classes = useStyles();
+const AddRoom = ({ title, id, protect }) => {
+  const classes = useStyles({ protect });
   let history = useHistory();
 
   const [password, setPassword] = useState('');
@@ -86,16 +89,20 @@ const AddRoom = ({ title, id }) => {
         <Typography variant="h6">{title}</Typography>
       </Grid>
       <Grid item xs={12}>
-        <TextField
-          id="password"
-          label="Password"
-          variant="outlined"
-          size="small"
-          type="password"
-          onChange={(e) => setPassword(e.target.value)}
-          value={password}
-          fullWidth
-        />
+        {
+          <TextField
+            id="password"
+            label="Password"
+            variant="outlined"
+            size="small"
+            type="password"
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+            fullWidth
+            autoFocus={protect}
+            className={classes.inputPassword}
+          />
+        }
       </Grid>
       <Grid item xs={12}>
         <Button
@@ -106,6 +113,7 @@ const AddRoom = ({ title, id }) => {
           size="large"
           fullWidth
           onClick={handleEnter}
+          autoFocus={!protect}
         >
           <Typography variant="button">{'Ingresar'}</Typography>
         </Button>

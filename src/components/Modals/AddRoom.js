@@ -83,6 +83,7 @@ const AddRoom = (props) => {
           onChange={(e) => setTitle(e.target.value)}
           value={title}
           required
+          autoFocus
         />
       </Grid>
       <Grid item xs={12}>
