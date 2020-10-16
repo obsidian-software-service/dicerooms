@@ -20,9 +20,11 @@ const ModalManager = (props) => {
   const handleClose = () => {
     dispatch(hideModal());
   };
+  const user = useSelector((state) => state.auth.user);
   const open = useSelector((state) => state.modal.open);
   const type = useSelector((state) => state.modal.type);
   const content = useSelector((state) => state.modal.content);
+  const unregistered = content && !content.activeUsers[user.uid];
 
   const selectedModal = () => {
     switch (type) {
@@ -33,7 +35,7 @@ const ModalManager = (props) => {
           <EnterRoom
             title={content.title}
             id={content.id}
-            protect={content.private}
+            protect={unregistered && content.private}
           />
         );
       default:

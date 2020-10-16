@@ -42,31 +42,36 @@ const AddRoom = ({ title, id, protect }) => {
 
   const dispatch = useDispatch();
   const handleEnter = async () => {
-    try {
-      await db
-        .firestore()
-        .collection('rooms')
-        .doc(id)
-        .collection('private')
-        .doc('data')
-        .update({
-          password,
-          allowedUsers: firebase.firestore.FieldValue.arrayUnion(
-            user.uid,
-          ),
-        });
+    if (protect) {
+      try {
+        await db
+          .firestore()
+          .collection('rooms')
+          .doc(id)
+          .collection('private')
+          .doc('data')
+          .update({
+            password,
+            allowedUsers: firebase.firestore.FieldValue.arrayUnion(
+              user.uid,
+            ),
+          });
 
-      db.firestore()
-        .collection('rooms')
-        .doc(id)
-        .update({
-          [`activeUsers.${user.uid}`]: firebase.firestore.FieldValue.serverTimestamp(),
-        });
+        db.firestore()
+          .collection('rooms')
+          .doc(id)
+          .update({
+            [`activeUsers.${user.uid}`]: firebase.firestore.FieldValue.serverTimestamp(),
+          });
 
+        history.push(`/rooms/${id}`);
+        dispatch(hideModal());
+      } catch (err) {
+        setErrorMsg('Password Invalido');
+      }
+    } else {
       history.push(`/rooms/${id}`);
       dispatch(hideModal());
-    } catch (err) {
-      setErrorMsg('Password Invalido');
     }
   };
 
